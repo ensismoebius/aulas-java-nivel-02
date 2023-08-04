@@ -32,10 +32,10 @@ public class EvaluateString {
         char[] tokens = expression.toCharArray();
 
         // Stack for numbers: 'values'
-        Stack<String> values = new Stack<String>();
+        Stack<String> values = new Stack<>();
 
         // Stack for Operators: 'ops'
-        Stack<Character> ops = new Stack<Character>();
+        Stack<Character> ops = new Stack<>();
 
         // Cicles over all tokens in expression
         for (int i = 0; i < tokens.length; i++) {
@@ -48,7 +48,7 @@ public class EvaluateString {
             if (tokens[i] >= '0' && tokens[i] <= '9' || Character.isAlphabetic(tokens[i])) {
 
                 // There may be more than one digits in number
-                StringBuffer sbuf = new StringBuffer();
+                StringBuilder sbuf = new StringBuilder();
                 while (i < tokens.length && (isPartOfANumber(tokens[i]) || isPartOfAVariable(tokens[i]))) {
                     sbuf.append(tokens[i++]);
                 }
@@ -105,7 +105,6 @@ public class EvaluateString {
     }
 
     private static boolean isPartOfAVariable(char c) {
-
         return Character.isAlphabetic(c);
     }
 
@@ -119,10 +118,7 @@ public class EvaluateString {
         if (c >= '0' && c <= '9') {
             return true;
         }
-        if (c == '.') {
-            return true;
-        }
-        return false;
+        return c == '.';
     }
 
     /**
@@ -141,18 +137,14 @@ public class EvaluateString {
         if (op2 == '(' || op2 == ')') {
             return false;
         }
-        if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) {
-            return false;
-        } else {
-            return true;
-        }
+        return !((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-'));
     }
 
     private static boolean isNumber(String value) {
         try {
-            Double.parseDouble(value);
+            Double.valueOf(value);
             return true;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
         }
         return false;
     }

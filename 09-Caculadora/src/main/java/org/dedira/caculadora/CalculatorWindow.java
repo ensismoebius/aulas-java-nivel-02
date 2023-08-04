@@ -26,6 +26,8 @@ public class CalculatorWindow extends Stage {
         this.lstVariables = new ListView<>(this.variableContainer.getVariableItens());
         this.lstVariables.prefWidthProperty().bind(this.widthProperty().divide(4).multiply(1));
 
+        EvaluateString.setVariableTranslator(this.variableContainer);
+
         this.txtExpression.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 String finalText = txtExpression.getText();
@@ -33,8 +35,6 @@ public class CalculatorWindow extends Stage {
                 txtExpression.appendText("\n" + String.valueOf(EvaluateString.evaluate(lines[lines.length - 1])));
             }
         });
-
-        EvaluateString.setVariableTranslator(this.variableContainer);
 
         GridPane gp = new GridPane();
         gp.add(txtExpression, 0, 0);
